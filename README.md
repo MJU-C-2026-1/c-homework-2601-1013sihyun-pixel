@@ -51,7 +51,7 @@
      
 ### **📁 증빙 자료:**
   * [1차_AI협업캡처.pdf 첨부 완료] (첨부 후 링크)
-  * [1차과제_실행결과.jpg]
+  * [[1차과제_실행결과.jpg]](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_1.png)
 
 <br>
 
