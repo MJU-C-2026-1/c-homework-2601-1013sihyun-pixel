@@ -60,10 +60,45 @@ int main()
 
     return 0;
 
-	//1. 조건문
+    //1. 조건문
 	//1-1. Switch로 행동 선택하기
 	printf("\n[ 오늘은 무엇을 할까요? ]\n");
     printf("1. 별가루 폭식  2. 쓰다듬기  3. 블랙홀 산책  4. 심해 은하 휴식\n");
     printf("선택: ");
     scanf("%d", &choice);
+    
+	switch(choice)
+	{
+		case 1:
+			printf("토끼의 몸집이 커졌습니다! 앗, 너무 많이 먹었나? \n");
+			printf("[ 질량 ↑, 에너지 ↑↑↑, 스트레스 ↑↑ ]\n");
+			increased_mass += 10.0; 
+			stress += 20;
+			energy += 30.0;
+			break;
+		
+		case 2:
+			printf("쓰담쓰담, 토끼의 기분이 좋아 보입니다! \n");
+			printf("[ 애정 ↑↑, 스트레스 ↓↓ ]\n");
+			affection += 20;
+			stress -= 15;	
+			break;
+		
+		case 3:
+			break;
+			printf("블랙홀 주변을 산책합니다. 토끼는 끝이 보이지 않는 어둠 속에서 알 수 없는 끌림을 느꼈습니다. \n");
+			printf("[ 색온도 ↑↑, 에너지 ↓↓, 스트레스 ↑ ]\n");
+			color_temp += 2000; // 온도가 높아질수록 한색에 가까워짐
+			energy -= 20.0;
+			stress += 15;
+			break;
+			
+		case 4:
+			printf(">> 고요한 심해 은하에서 휴식합니다. 토끼는 마음이 편안해짐을 느낍니다..\n");
+			printf("[ 색온도 ↓↓, 에너지 ↑, 스트레스 ↓↓ ]\n");
+			stress -= 20;
+			color_temp -= 2000; // 온도가 낮아질수록 난색에 가까워짐
+			energy += 10.0;
+			break;	
+	}
 }
