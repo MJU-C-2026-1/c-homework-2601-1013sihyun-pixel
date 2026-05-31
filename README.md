@@ -90,7 +90,7 @@
      * **해결:** ...
      
 ### **📁 증빙 자료:**
-  * [3차_AI협업캡처.pdf]()
+  * [3차_AI협업캡처.pdf](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/AI%ED%98%91%EC%97%85_3.pdf)
   * [3차과제_실행결과.jpg](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_3.png)
 <br>
 
