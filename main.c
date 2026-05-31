@@ -2,12 +2,13 @@
 /*
 	파일명: main.c
 	작성자: 이시현
-	하는일: 우주 먼지 토끼 키우기 - 1차
+	하는일: 우주 먼지 토끼 키우기 - 3차
 */
 
 //2. 전처리기
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 //3. 전역 변수 선언
 int achievement_count = 0;  // 달성한 업적 개수를 체크하는 변수
@@ -15,12 +16,43 @@ int rank_score = 0;         // 등급을 숫자로 저장
 int twinkle_power;          // 반짝임 지수
 double increased_mass;      // 증가한 질량
 double density;             // 밀도
+double energy = 100.00;		// 보유 에너지 (초기값 100.0)
 int affection = 0;          // 애정 지수 (초기값 0)
 int stress = 0;             // 스트레스 (초기값 0)
 int color_temp = 4000;      // 색온도 (초기값 4000K, 백색)
 
-//4. 함수 선언
-//4-1. 진화 등급 판정-함수 처리
+//4. 함수 정의
+//4-1.데이터 범위 보정 및 산술 연산-함수 처리
+void update_and_adjust_stats(double current_mass, int stardust_count)
+{
+	//산술 연산
+	increased_mass = current_mass + (stardust_count * 0.12);	// 별가루 1개당 기존 질량 + 0.12kg
+    twinkle_power = stardust_count * 7;							// 반짝임 지수는 별 가루 개수에 7을 곱한 값으로 설정
+    
+    //데이터 범위 보정
+    if (stress < 0) 
+    {
+    	stress = 0;				//스트레스 지수는 최솟값이 0이다.
+	}
+
+    if (energy > 200.0) 
+	{
+		energy = 200.0;   	   // 에너지 최댓값 제한
+	}
+    if (energy < 0) 
+	{
+		energy = 0.0;         //에너지는 최솟값이 0이다.
+	}
+	if (affection > 200) 
+	{
+		affection = 200;         //애정 지수 최댓값 제한.
+	}
+
+    //산술 연산(함수 내에서 전역 변수 값을 직접 변경)
+    density = energy / increased_mass;							// 밀도: 에너지 / 최종 질량으로 설정 및 업데이트  
+}
+
+//4-2. 진화 등급 판정-함수 처리
 int judge_evolution(double mass, int twinkle)
 {
 	printf("\n[ 최종 진화 등급 판정 ]\n");
@@ -64,10 +96,13 @@ int judge_evolution(double mass, int twinkle)
     	printf("최종 등급: [ F ] \n");
     	rank_score = 0;
     }
+   
+    return rank_score;
+    
 }
 	
         
-//4-2. 업적 및 칭호 부여-함수 처리
+//4-3. 업적 및 칭호 부여-함수 처리
 void grant_achievements()
 {
 	printf("\n[ 업적 및 칭호 부여 ]\n");
@@ -129,7 +164,6 @@ void grant_achievements()
 
 
 //5. int main()
-
 int main()
 {
 	system ("chcp 65001");
@@ -140,9 +174,11 @@ int main()
     int stardust_count;			// 수집한 별가루 개수
     
     //1-1. 2차(조건문) 변수 선언-지역 변수
-    int choice;					// 행동 선택
-    double energy = 100.00;		// 보유 에너지 (초기값 100.0)
+    int choice = 0;					// 행동 선택
     
+	//1-2. 3차(반복문) 변수 선언-지역 변수
+    int event_roll = rand() % 100; //0~99 중 랜덤 숫자 뽑기
+    int found_dust = 0; //탐사 게임에서 찾은 별가루 개수    
 
     // 2. 데이터 입력
     printf("  * .  * .  * .  * .  * .  * .  * \n");
@@ -158,10 +194,8 @@ int main()
     printf("  * .  * .  * .  * .  * .  * .  * \n");
 
     // 3. 산술 연산
-    increased_mass = current_mass + (stardust_count * 0.12);	// 별가루 1개당 기존 질량 + 0.12kg
-    twinkle_power = stardust_count * 7;							// 반짝임 지수는 별 가루 개수에 7을 곱한 값으로 설정
-    density = energy / increased_mass; 							// 밀도: 에너지 / 최종 질량으로 설정
-
+    update_and_adjust_stats(current_mass, stardust_count);
+    
     // 4. 결과 출력 - 추가 변수도 함께 >> 현재 토끼의 상태 출력
     printf("\n--- ★ 은하 먼지 토끼 %c의 리포트 ★ ---\n", rabbit_initial);
     printf("  * .  * .  * .  * .  * .  * .  * \n");
@@ -174,12 +208,21 @@ int main()
     printf("\n-------------------------------------\n \n");
     printf("상태 분석이 완료되었습니다. 멋진 별토끼가 될 준비 중!\n");
     
-    //1. 조건문
+//1. 반복문
+while(1)
+{
+    	//1. 조건문
 	//1-1. Switch로 행동 선택하기
 	printf("\n[ 오늘은 무엇을 할까요? ]\n");
-    printf("1. 별가루 폭식  2. 쓰다듬기  3. 블랙홀 산책  4. 심해 은하 휴식\n");
-    printf("선택: ");
+    printf("1. 별가루 폭식  2. 쓰다듬기  3. 블랙홀 산책  4. 심해 은하 휴식 5. 우주 탐사 6. 나가기\n");
+    printf("\n선택: ");
     scanf("%d", &choice);
+    
+	if (choice == 6)
+    {
+        printf("\n[ 육성을 종료하고 최종 결과를 확인합니다. ]\n");
+        break; 
+    }
     
 	switch(choice)
 	{
@@ -236,29 +279,61 @@ int main()
 			stress -= 20;
 			color_temp -= 2000; // 온도가 낮아질수록 난색에 가까워짐
 			energy += 10.0;
-			break;	
+			break;
+		
+		case 5:
+			printf("\n=============================================\n");
+            printf("\n            [우주 탐사 미니게임]     \n");
+            printf("\n=============================================\n");
+            printf("토끼가 탐사선을 타고 미지의 성단으로 출발합니다! \n\n");
+			printf("  .  \n\n");
+			printf("  .  \n\n");
+			printf("  ★  \n\n");	
+            printf("\n성단 주변을 탐색하며 별가루 레이더를 가동합니다.\n");
+
+            if (event_roll < 50) // 50% 확률: 일반 성공
+            {
+                found_dust = (rand() % 5) + 3; // 3~7개 랜덤
+                printf("\n반짝이는 황금빛 성단을 발견했습니다!\n");
+                printf("( . .)  주섬주섬.. 토끼가 열심히 별가루를 주워 담습니다.\n");
+                printf("[ 별가루 +%d개 획득! ]\n", found_dust);
+            }
+            else if (event_roll < 85) // 35% 확률: 대박 크리티컬
+            {
+                found_dust = (rand() % 8) + 10; // 10~17개 랜덤
+                printf("\n'초신성 잔해 지대'를 발견했습니다!\n");
+                printf("( >♡<)  세상에! 사방이 온통 별가루 천지입니다!\n");
+                printf("[ 크리티컬! 별가루 +%d개 대량 획득! ]\n", found_dust);
+                stress -= 5; 
+            }
+            else // 15% 확률: 꽝 (돌발 사고)
+            {
+                found_dust = 1; 
+                printf("\n콰과광! 갑작스러운 소행성 소나기를 만났습니다!\n");
+                printf("  ( ㅇ ㅇ)  으악! 토끼가 허둥지둥 도망치며 스트레스를 받습니다.\n");
+                printf("  [ 탐사 실패.. 별가루는 겨우 %d개만 챙겼습니다. ]\n", found_dust);
+                stress += 25; 
+            }
+
+            // 획득한 별가루 개수 반영
+            stardust_count += found_dust;
+            
+            // 미니게임 직후 실시간 연산 업데이트
+            increased_mass = current_mass + (stardust_count * 0.12);
+            twinkle_power = stardust_count * 7;
+            
+            break;
+            
+        default:
+        	printf("\n[ 잘못된 선택입니다. 1~6 사이의 숫자를 눌러주세요. ]\n");
+        	break;
+        
 	}
 	
 	//데이터 보정 및 최종 상태 계산
-    if (stress < 0) 
-    {
-    	stress = 0;				//스트레스 지수는 최솟값이 0이다.
-	}
-
-    if (energy > 200.0) 
-	{
-		energy = 200.0;   	   // 에너지 최댓값 제한
-	}
-    if (energy < 0) 
-	{
-		energy = 0.0;         //에너지는 최솟값이 0이다.
-	}
-	if (affection > 200) 
-	{
-		affection = 200;         //애정 지수 최댓값 제한.
-	}
-	
-    density = energy / increased_mass;    // 최종 변동치를 반영한 밀도 업데이트
+	update_and_adjust_stats(current_mass, stardust_count);
+    
+}
 
     // 모든 수치 재출력 (최종 스탯 확인)
     printf("\n--- ★ 은하 먼지 토끼 %c의 최종 스탯 리포트 ★ ---\n", rabbit_initial);
