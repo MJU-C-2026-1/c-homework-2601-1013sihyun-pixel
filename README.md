@@ -101,14 +101,17 @@
     
 ### **🤖 AI 파트너십 과정**
  1. **내용 1**
-    * **프롬프트 요약:**  ...
-   * **적용 내용:** .... 
+    * **프롬프트 요약:**  ... 최종 코드 검토를 맡기고 수정할 부분이 있는지 물어봄.
+   * **적용 내용:** .... 변수 이름에 오탈자가 있었고, 스탯 누적 문제가 생길 수 있어서 수정함.
     
 ### **🛠️ Troubleshooting & 기술 회고:**
   1. **문제 1:** ... 인덱스 초기화 설정을 0으로 했는데 0으로 시작하니 중간에 이상한 값이 나옴
      * **해결:** ... 인덱스 초기화를 0이 아닌 -1로 설정하면 데이터 입력 전 아직 아무것도 없다는 설정이 되어서 해결함.
      
 ### **📁 증빙 자료:**
-  * [4차_AI협업캡처.pdf 첨부 완료] (첨부 후 링크)
-  * [4차과제_실행결과.jpg]
+  * [4차_AI협업캡처.pdf] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/AI%ED%98%91%EC%97%85_4.pdf)
+  * [4차과제_실행결과1.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_1.png)
+  * [4차과제_실행결과2.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_2.png)
+  * [4차과제_실행결과3.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_3.png)
+  * [4차과제_실행결과4.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_4.png)
 <br>
