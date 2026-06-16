@@ -13,7 +13,7 @@
 #define MAX_RABBITS 10  // 최대 관리 가능한 토끼 수
 
 //3. 데이터 저장용 배열 선언
-char rabbit_initals[MAX_RABBITS];     //토끼들의 이니셜 저장 배열
+char rabbit_initials[MAX_RABBITS];    //토끼들의 이니셜 저장 배열 (오타 수정)
 double increased_masses[MAX_RABBITS]; //최종 질량 저장 배열
 int stardust_counts[MAX_RABBITS];     //수집한 별가루 개수 저장 배열
 int twinkle_powers[MAX_RABBITS];      //반짝임 지수 저장 배열
@@ -241,7 +241,7 @@ int main()
 				//4. 최종 데이터 배열에 저장
 				// 4-1. 성단 저장 위치 지정 및 데이터 저장
 				current_idx = rabbit_count; // 현재 저장할 방 번호 지정
-				rabbit_initals[current_idx] = rabbit_initial;
+				rabbit_initials[current_idx] = rabbit_initial;
 				increased_masses[current_idx] = increased_mass;
 				stardust_counts[current_idx] = stardust_count;
 				twinkle_powers[current_idx] = twinkle_power;
@@ -273,12 +273,14 @@ int main()
 //7-1. 신규 우주 토끼 등록-함수 처리
 void register_new_rabbit()
 {
-	//1. 새 토끼를 위한 스탯 초기화
+	//1. 새 토끼를 위한 스탯 완벽 초기화 (이전 판 스탯 누적 방지 보강)
 	energy = 100.00;
 	affection = 0;
 	stress = 0;
 	color_temp = 4000;
 	achievement_count = 0;
+	increased_mass = 0.0;
+	stardust_count = 0;
 
 	// 2. 데이터 입력
 	printf("\n  * .  * .  * .  * .  * .  * .  * \n");
@@ -370,115 +372,4 @@ int judge_evolution(double mass, int twinkle)
 		printf("최종 등급: [ C ] \n");
 		rank_score = 2;
 	} 
-	else if (increased_mass >= 10 && twinkle_power >= 10) 
-	{
-		printf("최종 등급: [ D ] \n");
-		rank_score = 1;
-	} 
-	else 
-	{
-		printf("최종 등급: [ F ] \n");
-		rank_score = 0;
-	}
-   
-	return rank_score;
-}
-	
-//7-4. 업적 및 칭호 부여-함수 처리
-void grant_achievements()
-{
-	printf("\n[ 업적 및 칭호 부여 ]\n");
-	if (rank_score >= 6 && twinkle_power >= 700 && affection >= 100 && stress <= 50)
-	{
-		printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 은하계의 아이돌 [ RANK [ SS ] 이상 | 반짝임 700 이상 | 애정 100%% 이상 | 스트레스 50%% 이하 ]\n");
-		achievement_count++;
-	}
-	
-	if (rank_score >= 4 && twinkle_power >= 500 && affection >= 150) 
-	{
-		printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 따스한 햇살 [ RANK [ A ] 이상 | 반짝임 500 이상 | 애정 150 %% 이상 ] \n");
-		achievement_count++;
-	}
-	
-	if (density >= 80.0) 
-	{
-		printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 고밀도 초신성 [ 밀도 80 이상 ] \n");
-		achievement_count++;
-	}
-	
-	if (increased_mass >= 500.0) 
-	{
-		printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 요새 덩어리 [ 질량 500kg 이상 ] \n");
-		achievement_count++;
-	}
-	
-	if (stress >= 100) 
-	{
-		printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 블랙홀 토끼 [ 스트레스 100 %% 이상 ] \n");
-		achievement_count++;
-	}
-	
-	if (color_temp <= 3000) 
-	{
-		printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 뜨거운 적색거성 [ 색온도 3000K 이하 ] \n");
-		achievement_count++;
-	}
-	
-	if (color_temp >= 7000) 
-	{
-		printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 푸른 다이아몬드 성단 [ 색온도 7000K 이상 ] \n");
-		achievement_count++;
-	}
-	
-	if (achievement_count == 0)
-	{
-		printf("아직 달성한 업적이 없습니다. 더 노력해보세요! \n");
-	}
-}
-
-// 종합 장부 출력을 위한 마무리 분석 및 일괄 출력용 함수 구현
-void print_report()
-{
-	printf("\n=========================================================================\n");
-	printf("                 [성단 관리 시스템 - 보관 토끼 장부 일괄 출력]         \n");
-	printf("=========================================================================\n");
-	printf(" 번호 | 이니셜 |   최종질량   | 수집 별가루 | 반짝임 지수 |   밀도   | 스트레스 \n");
-	printf("-------------------------------------------------------------------------\n");
-	for (int i = 0; i < rabbit_count; i++)
-	{
-		printf("  %2d  |   %c    |  %6.1f kg  |   %3d 개    |   %3d pt    | %5.2f dust |   %3d %% \n",
-			i + 1, rabbit_initals[i], increased_masses[i], stardust_counts[i], twinkle_powers[i], densities[i], stresses[i]);
-	}
-	analyze_all_rabbits(increased_masses, energies, stresses, densities, rabbit_count);
-}
-
-void analyze_all_rabbits(double *mass_ptr, double *energy_ptr, int *stress_ptr, double *density_ptr, int count)
-{
-	double total_mass = 0, total_energy = 0, total_density = 0;
-	int total_stress = 0;
-	for(int i = 0; i < count; i++)
-	{
-		total_mass += *(mass_ptr + i);
-		total_energy += *(energy_ptr + i);
-		total_stress += *(stress_ptr + i);
-		total_density += *(density_ptr + i);
-	}
-	printf("\n========================================================\n");
-	printf("          [성단 관리 시스템 - 실시간 종합 통계]       \n");
-	printf("========================================================\n");
-	printf("  - 관리 중인 토끼 총 수 : %d 마리\n", count);
-	printf("  - 성단 토끼 총 질량    : %.2f kg\n", total_mass);
-	printf("  - 성단 평균 에너지 잔량 : %.2f %%\n", total_energy / count);
-	printf("  - 성단 평균 스트레스    : %.1f %%\n", (double)total_stress / count);
-	printf("  - 성단 평균 밀도 지수   : %.2f dust\n", total_density / count);
-	printf("========================================================\n");
-}
-
-int judge_evolution_param(double *mass_arr, int *twinkle_arr, int idx) { return 0; }
+	else if (increased_mass >= 10 && twinkle_power >= 10)
