@@ -10,7 +10,23 @@
 #include <stdlib.h>
 #include <time.h>
 
-//3. 전역 변수 선언
+#define MAX_RABBITS 5  // 최대 관리 가능한 토끼 수: 5마리
+
+//3. 데이터 저장용 배열 선언
+char rabbit_initials[MAX_RABBITS];
+double current_masses[MAX_RABBITS];
+double increased_masses[MAX_RABBITS];
+int stardust_counts[MAX_RABBITS];
+int twinkle_powers[MAX_RABBITS];
+double densities[MAX_RABBITS];
+double energies[MAX_RABBITS];
+int affections[MAX_RABBITS];
+int stresses[MAX_RABBITS];
+int color_temps[MAX_RABBITS];
+int rank_scores[MAX_RABBITS];
+int achievement_counts[MAX_RABBITS];
+
+//4. 전역 변수 선언
 int achievement_count = 0;  // 달성한 업적 개수를 체크하는 변수
 int rank_score = 0;         // 등급을 숫자로 저장
 int twinkle_power;          // 반짝임 지수
@@ -20,159 +36,24 @@ double energy = 100.00;		// 보유 에너지 (초기값 100.0)
 int affection = 0;          // 애정 지수 (초기값 0)
 int stress = 0;             // 스트레스 (초기값 0)
 int color_temp = 4000;      // 색온도 (초기값 4000K, 백색)
+int rabbit_count = 0;       // 현재 등록된 총 토끼 수
+int current_idx = -1;       // 현재 선택되어 육성 중인 토끼의 인덱스
+char rabbit_initial;		// 토끼의 이니셜
+double current_mass;		// 현재 토끼의 질량 (kg)
+int stardust_count;			// 수집한 별가루 개수
 
-//4. 함수 정의
-//4-1.데이터 범위 보정 및 산술 연산-함수 처리
-void update_and_adjust_stats(double current_mass, int stardust_count)
-{
-	//산술 연산
-	increased_mass = current_mass + (stardust_count * 0.12);	// 별가루 1개당 기존 질량 + 0.12kg
-    twinkle_power = stardust_count * 7;							// 반짝임 지수는 별 가루 개수에 7을 곱한 값으로 설정
-    
-    //데이터 범위 보정
-    if (stress < 0) 
-    {
-    	stress = 0;				//스트레스 지수는 최솟값이 0이다.
-	}
+//5. 함수 선언
+void analyze_all_rabbits(double *mass_ptr, double *energy_ptr, int *stress_ptr, double *density_ptr, int count);
+int judge_evolution_param(double *mass_arr, int *twinkle_arr, int idx);
+void grant_achievements();
+void print_report();
 
-    if (energy > 200.0) 
-	{
-		energy = 200.0;   	   // 에너지 최댓값 제한
-	}
-    if (energy < 0) 
-	{
-		energy = 0.0;         //에너지는 최솟값이 0이다.
-	}
-	if (affection > 200) 
-	{
-		affection = 200;         //애정 지수 최댓값 제한.
-	}
-
-    //산술 연산(함수 내에서 전역 변수 값을 직접 변경)
-    density = energy / increased_mass;							// 밀도: 에너지 / 최종 질량으로 설정 및 업데이트  
-}
-
-//4-2. 진화 등급 판정-함수 처리
-int judge_evolution(double mass, int twinkle)
-{
-	printf("\n[ 최종 진화 등급 판정 ]\n");
-    if (increased_mass >= 500 && twinkle_power >= 100) 
-	{
-    	printf("최종 등급: [ SSS ] \n");
-    	rank_score = 7;
-    } 
-    else if (increased_mass >= 300 && twinkle_power >= 70) 
-	{
-    	printf("최종 등급: [ SS ] \n");
-    	rank_score = 6;
-    } 
-    else if (increased_mass >= 100 && twinkle_power >= 80) 
-	{
-    	printf("최종 등급: [ S ] \n");
-    	rank_score = 5;
-    } 
-    else if (increased_mass >= 50 && twinkle_power >= 50) 
-	{
-    	printf("최종 등급: [ A ] \n");
-    	rank_score = 4;
-    } 
-    else if (increased_mass >= 30 && twinkle_power >= 30) 
-	{
-    	printf("최종 등급: [ B ] \n");
-    	rank_score = 3;
-    } 
-    else if (increased_mass >= 20 && twinkle_power >= 20) 
-	{
-    	printf("최종 등급: [ C ] \n");
-    	rank_score = 2;
-    } 
-    else if (increased_mass >= 10 && twinkle_power >= 10) 
-	{
-    	printf("최종 등급: [ D ] \n");
-    	rank_score = 1;
-    } 
-    else 
-	{
-    	printf("최종 등급: [ F ] \n");
-    	rank_score = 0;
-    }
-   
-    return rank_score;
-    
-}
-	
-        
-//4-3. 업적 및 칭호 부여-함수 처리
-void grant_achievements()
-{
-	printf("\n[ 업적 및 칭호 부여 ]\n");
-	if (rank_score >= 6 && twinkle_power >= 700 && affection >= 100 && stress <= 50)
-	{
-    	printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 은하계의 아이돌 [ RANK [ SS ] 이상 | 반짝임 700 이상 | 애정 100%% 이상 | 스트레스 50%% 이하 ]\n");
-        achievement_count++;
-	}
-	
-    if ( rank_score >= 4 && twinkle_power >= 500 && affection >= 150) 
-	{
-        printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 따스한 햇살 [ RANK [ A ] 이상 | 반짝임 500 이상 | 애정 150 %% 이상 ] \n");
-        achievement_count++;
-	}
-	
-    if (density >= 80.0) 
-	{
-        printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 고밀도 초신성 [ 밀도 80 이상 ] \n");
-        achievement_count++;
-	}
-	
-    if (increased_mass >= 500.0) 
-	{
-        printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 요새 덩어리 [ 질량 500kg 이상 ] \n");
-        achievement_count++;
-    }
-    
-    if (stress >= 100) 
-	{
-        printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 블랙홀 토끼 [ 스트레스 100 %% 이상 ] \n");
-        achievement_count++;
-    }
-    
-    if (color_temp <= 3000) 
-	{
-        printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 뜨거운 적색거성 [ 색온도 3000K 이하 ] \n");
-        achievement_count++;
-    }
-    
-    if (color_temp >= 7000) 
-	{
-        printf("축하드립니다! 업적을 달성했습니다!");
-		printf(" ★ 푸른 다이아몬드 성단 [ 색온도 7000K 이상 ] \n");
-        achievement_count++;
-    }
-    
-    if (achievement_count == 0)
-    {
-    	printf("아직 달성한 업적이 없습니다. 더 노력해보세요! \n");
-	}
-
-}
-
-
-//5. int main()
+//6. int main()
 int main()
 {
 	system ("chcp 65001");
 	
-	//1. 1차(기본) 변수 선언-지역 변수
-    char rabbit_initial;		// 토끼의 이니셜
-    double current_mass;		// 현재 토끼의 질량 (kg)
-    int stardust_count;			// 수집한 별가루 개수
-    
+	//1. 지역 변수 선언
     //1-1. 2차(조건문) 변수 선언-지역 변수
     int choice = 0;					// 행동 선택
     
@@ -356,3 +237,145 @@ while(1)
     
     return 0;
 }
+
+//7. 함수 정의
+//7-1.데이터 범위 보정 및 산술 연산-함수 처리
+void update_and_adjust_stats(double current_mass, int stardust_count)
+{
+	//산술 연산
+	increased_mass = current_mass + (stardust_count * 0.12);	// 별가루 1개당 기존 질량 + 0.12kg
+    twinkle_power = stardust_count * 7;							// 반짝임 지수는 별 가루 개수에 7을 곱한 값으로 설정
+    
+    //데이터 범위 보정
+    if (stress < 0) 
+    {
+    	stress = 0;				//스트레스 지수는 최솟값이 0이다.
+	}
+
+    if (energy > 200.0) 
+	{
+		energy = 200.0;   	   // 에너지 최댓값 제한
+	}
+    if (energy < 0) 
+	{
+		energy = 0.0;         //에너지는 최솟값이 0이다.
+	}
+	if (affection > 200) 
+	{
+		affection = 200;         //애정 지수 최댓값 제한.
+	}
+
+    //산술 연산(함수 내에서 전역 변수 값을 직접 변경)
+    density = energy / increased_mass;							// 밀도: 에너지 / 최종 질량으로 설정 및 업데이트  
+}
+
+//7-2. 진화 등급 판정-함수 처리
+int judge_evolution(double mass, int twinkle)
+{
+	printf("\n[ 최종 진화 등급 판정 ]\n");
+    if (increased_mass >= 500 && twinkle_power >= 100) 
+	{
+    	printf("최종 등급: [ SSS ] \n");
+    	rank_score = 7;
+    } 
+    else if (increased_mass >= 300 && twinkle_power >= 70) 
+	{
+    	printf("최종 등급: [ SS ] \n");
+    	rank_score = 6;
+    } 
+    else if (increased_mass >= 100 && twinkle_power >= 80) 
+	{
+    	printf("최종 등급: [ S ] \n");
+    	rank_score = 5;
+    } 
+    else if (increased_mass >= 50 && twinkle_power >= 50) 
+	{
+    	printf("최종 등급: [ A ] \n");
+    	rank_score = 4;
+    } 
+    else if (increased_mass >= 30 && twinkle_power >= 30) 
+	{
+    	printf("최종 등급: [ B ] \n");
+    	rank_score = 3;
+    } 
+    else if (increased_mass >= 20 && twinkle_power >= 20) 
+	{
+    	printf("최종 등급: [ C ] \n");
+    	rank_score = 2;
+    } 
+    else if (increased_mass >= 10 && twinkle_power >= 10) 
+	{
+    	printf("최종 등급: [ D ] \n");
+    	rank_score = 1;
+    } 
+    else 
+	{
+    	printf("최종 등급: [ F ] \n");
+    	rank_score = 0;
+    }
+   
+    return rank_score;
+    
+}
+	
+        
+//7-3. 업적 및 칭호 부여-함수 처리
+void grant_achievements()
+{
+	printf("\n[ 업적 및 칭호 부여 ]\n");
+	if (rank_score >= 6 && twinkle_power >= 700 && affection >= 100 && stress <= 50)
+	{
+    	printf("축하드립니다! 업적을 달성했습니다!");
+		printf(" ★ 은하계의 아이돌 [ RANK [ SS ] 이상 | 반짝임 700 이상 | 애정 100%% 이상 | 스트레스 50%% 이하 ]\n");
+        achievement_count++;
+	}
+	
+    if ( rank_score >= 4 && twinkle_power >= 500 && affection >= 150) 
+	{
+        printf("축하드립니다! 업적을 달성했습니다!");
+		printf(" ★ 따스한 햇살 [ RANK [ A ] 이상 | 반짝임 500 이상 | 애정 150 %% 이상 ] \n");
+        achievement_count++;
+	}
+	
+    if (density >= 80.0) 
+	{
+        printf("축하드립니다! 업적을 달성했습니다!");
+		printf(" ★ 고밀도 초신성 [ 밀도 80 이상 ] \n");
+        achievement_count++;
+	}
+	
+    if (increased_mass >= 500.0) 
+	{
+        printf("축하드립니다! 업적을 달성했습니다!");
+		printf(" ★ 요새 덩어리 [ 질량 500kg 이상 ] \n");
+        achievement_count++;
+    }
+    
+    if (stress >= 100) 
+	{
+        printf("축하드립니다! 업적을 달성했습니다!");
+		printf(" ★ 블랙홀 토끼 [ 스트레스 100 %% 이상 ] \n");
+        achievement_count++;
+    }
+    
+    if (color_temp <= 3000) 
+	{
+        printf("축하드립니다! 업적을 달성했습니다!");
+		printf(" ★ 뜨거운 적색거성 [ 색온도 3000K 이하 ] \n");
+        achievement_count++;
+    }
+    
+    if (color_temp >= 7000) 
+	{
+        printf("축하드립니다! 업적을 달성했습니다!");
+		printf(" ★ 푸른 다이아몬드 성단 [ 색온도 7000K 이상 ] \n");
+        achievement_count++;
+    }
+    
+    if (achievement_count == 0)
+    {
+    	printf("아직 달성한 업적이 없습니다. 더 노력해보세요! \n");
+	}
+
+}
+
