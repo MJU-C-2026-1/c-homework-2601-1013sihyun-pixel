@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_RABBITS 5  // 최대 관리 가능한 토끼 수: 5마리
+#define MAX_RABBITS 5  // 상수-최대 관리 가능한 토끼 수: 5마리
 
 //3. 데이터 저장용 배열 선언
 char rabbit_initials[MAX_RABBITS];
