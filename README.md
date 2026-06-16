@@ -109,9 +109,9 @@
      * **해결:** ... 인덱스 초기화를 0이 아닌 -1로 설정하면 데이터 입력 전 아직 아무것도 없다는 설정이 되어서 해결함.
      
 ### **📁 증빙 자료:**
-  * [4차_AI협업캡처.pdf] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/AI%ED%98%91%EC%97%85_4.pdf)
-  * [4차과제_실행결과1.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_1.png)
-  * [4차과제_실행결과2.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_2.png)
-  * [4차과제_실행결과3.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_3.png)
-  * [4차과제_실행결과4.jpg] (https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_4.png)
+  * [4차_AI협업캡처.pdf](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/AI%ED%98%91%EC%97%85_4.pdf)
+  * [4차과제_실행결과1.jpg](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_1.png)
+  * [4차과제_실행결과2.jpg](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_2.png)
+  * [4차과제_실행결과3.jpg](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_3.png)
+  * [4차과제_실행결과4.jpg](https://github.com/MJU-C-2026-1/c-homework-2601-1013sihyun-pixel/blob/main/%EC%8B%A4%ED%96%89%EA%B2%B0%EA%B3%BC_4_4.png)
 <br>
