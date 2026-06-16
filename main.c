@@ -13,18 +13,7 @@
 #define MAX_RABBITS 5  // 상수-최대 관리 가능한 토끼 수: 5마리
 
 //3. 데이터 저장용 배열 선언
-char rabbit_initials[MAX_RABBITS];
-double current_masses[MAX_RABBITS];
-double increased_masses[MAX_RABBITS];
-int stardust_counts[MAX_RABBITS];
-int twinkle_powers[MAX_RABBITS];
-double densities[MAX_RABBITS];
-double energies[MAX_RABBITS];
-int affections[MAX_RABBITS];
-int stresses[MAX_RABBITS];
-int color_temps[MAX_RABBITS];
-int rank_scores[MAX_RABBITS];
-int achievement_counts[MAX_RABBITS];
+
 
 //4. 전역 변수 선언
 int achievement_count = 0;  // 달성한 업적 개수를 체크하는 변수
