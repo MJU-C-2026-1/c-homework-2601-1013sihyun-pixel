@@ -95,7 +95,7 @@ int main()
 //1. 반복문
 while(1)
 {
-    	//1. 조건문
+    //1. 조건문
 	//1-1. Switch로 행동 선택하기
 	printf("\n[ 오늘은 무엇을 할까요? ]\n");
     printf("1. 별가루 폭식  2. 쓰다듬기  3. 블랙홀 산책  4. 심해 은하 휴식 5. 우주 탐사 6. 나가기\n");
@@ -104,7 +104,7 @@ while(1)
     
 	if (choice == 6)
     {
-        printf("\n[ 육성을 종료하고 최종 결과를 확인합니다. ]\n");
+        printf("\n[ 육성을 종료하고 최종 결과를 정산하여 성단에 저장합니다. ]\n");
         break; 
     }
     
@@ -175,6 +175,8 @@ while(1)
 			printf("  ★  \n\n");	
             printf("\n성단 주변을 탐색하며 별가루 레이더를 가동합니다.\n");
 
+			event_roll = rand() % 100; //주사위 굴리기
+
             if (event_roll < 50) // 50% 확률: 일반 성공
             {
                 found_dust = (rand() % 5) + 3; // 3~7개 랜덤
@@ -214,12 +216,12 @@ while(1)
         
 	}
 	
-	//데이터 보정 및 최종 상태 계산
+	//2. 데이터 보정 및 최종 상태 계산
 	update_and_adjust_stats(current_mass, stardust_count);
     
 }
-
-    // 모든 수치 재출력 (최종 스탯 확인)
+	//3. 정산
+    //3-1. 모든 수치 재출력 (최종 스탯 확인)
     printf("\n--- ★ 은하 먼지 토끼 %c의 최종 스탯 리포트 ★ ---\n", rabbit_initial);
     printf("  * .  * .  * .  * .  * .  * .  * \n");
     printf("  질량: %.1f kg \n", increased_mass);
@@ -232,17 +234,67 @@ while(1)
     printf("상태 분석이 완료되었습니다. 위 수치를 바탕으로 최종 진화 등급을 산출합니다.\n");
     
     
-    // 1-2. 진화 등급 판정 (매개변수로 질량과 반짝임을 보내고, 결과 스코어를 리턴받음)
+    // 3-2. 진화 등급 판정 (매개변수로 질량과 반짝임을 보내고, 결과 스코어를 리턴받음)
     rank_score = judge_evolution(increased_mass, twinkle_power); 
 	
-	// 1-3. 업적 및 칭호 부여 (함수 호출 호출! 내부에서 전역변수 직접 변경)
+	// 3-3. 업적 및 칭호 부여 (함수 호출 호출! 내부에서 전역변수 직접 변경)
     grant_achievements();
+
+	//4. 최종 데이터 배열에 저장
+	// 4-1. 성단 저장 위치 지정 및 데이터 저장
+	current_idx = rabbit_count; // 현재 저장할 방 번호 지정
+	rabbit_initials[current_idx] = rabbit_initial;
+	increased_masses[current_idx] = increased_mass;
+	stardust_counts[current_idx] = stardust_count;
+	twinkle_powers[current_idx] = twinkle_power;
+	densities[current_idx] = density;
+	energies[current_idx] = energy;
+	stresses[current_idx] = stress;
+
+	// 4-2. 다음 토끼를 위해 방 번호를 1 증가시키고 저장 완료 알림
+	rabbit_count++;
+	printf("\n[ 알림: 토끼 '%c'의 스탯이 성단 보관함 %d번 칸에 최종 저장되었습니다! ]\n", rabbit_initial, rabbit_count);
     
     return 0;
 }
 
 //7. 함수 정의
 //7-1. 신규 우주 토끼 등록-함수 처리
+void register_new_rabbit()
+{
+	//1. 새 토끼를 위한 스탯 초기화
+	energy = 100.00;
+	affection = 0;
+	stress = 0;
+	color_temp = 4000;
+	achievement_count = 0;
+
+	// 2. 데이터 입력
+printf("\n  * .  * .  * .  * .  * .  * .  * \n");
+printf("  /) /)  [우주 먼지 토끼 통신 가동] \n");
+printf(" ( . .)   토끼의 이름은 무엇인가요?: ");
+scanf(" %c", &rabbit_initial);
+
+printf(" ( >♡<)   현재 토끼의 질량(kg)은?: ");
+scanf("%lf", &current_mass);
+
+printf(" ( u u)   오늘 먹은 별가루는 몇 개인가요?: ");
+scanf("%d", &stardust_count);
+printf("  * .  * .  * .  * .  * .  * .  * \n");
+
+// 3. 산술 연산 함수 호출
+update_and_adjust_stats(current_mass, stardust_count);
+
+// 4. 결과 리포트 출력
+printf("\n--- ★ 은하 먼지 토끼 %c의 리포트 ★ ---\n", rabbit_initial);
+printf("  질량 변화: %.1f kg -> %.1f kg \n", current_mass, increased_mass);
+printf("  반짝임 지수: %d pt \n", twinkle_power);
+printf("  밀도: %.2f dust \n", density);
+printf("  에너지 잔량: %.2f %% \n", energy);
+printf("  [애정: %d %% | 스트레스: %d %% | 색온도: %d K]\n", affection, stress, color_temp);
+printf("-------------------------------------\n");
+	
+}
 
 
 //7-2. 데이터 범위 보정 및 산술 연산-함수 처리
