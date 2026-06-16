@@ -2,7 +2,7 @@
 /*
 	파일명: main.c
 	작성자: 이시현
-	하는일: 우주 먼지 토끼 키우기 - 3차
+	하는일: 우주 먼지 토끼 키우기 - 4차
 */
 
 //2. 전처리기
@@ -10,10 +10,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_RABBITS 5  // 상수-최대 관리 가능한 토끼 수: 5마리
+#define MAX_RABBITS 10  // 최대 관리 가능한 토끼 수
 
 //3. 데이터 저장용 배열 선언
-
+char rabbit_initals[MAX_RABBITS]; //토끼들의 이니셜 저장 배열
+double increased_masses[MAX_RABBITS]; //최종 질량 저장 배열
+int stardust_counts[MAX_RABBITS]; //수집한 별가루 개수 저장 배열
+int twinkle_powers[MAX_RABBITS]; //반짝임 지수 저장 배열
+double densities[MAX_RABBITS]; //밀도 저장 배열
+double energies[MAX_RABBITS]; //최종 에너지 저장 배열
+int stresses[MAX_RABBITS]; //최종 스트레스 저장 배열
 
 //4. 전역 변수 선언
 int achievement_count = 0;  // 달성한 업적 개수를 체크하는 변수
@@ -32,6 +38,7 @@ double current_mass;		// 현재 토끼의 질량 (kg)
 int stardust_count;			// 수집한 별가루 개수
 
 //5. 함수 선언
+void register_new_rabbit();
 void analyze_all_rabbits(double *mass_ptr, double *energy_ptr, int *stress_ptr, double *density_ptr, int count);
 int judge_evolution_param(double *mass_arr, int *twinkle_arr, int idx);
 void grant_achievements();
@@ -50,33 +57,40 @@ int main()
     int event_roll = rand() % 100; //0~99 중 랜덤 숫자 뽑기
     int found_dust = 0; //탐사 게임에서 찾은 별가루 개수    
 
-    // 2. 데이터 입력
-    printf("  * .  * .  * .  * .  * .  * .  * \n");
-    printf("  /) /)  [우주 먼지 토끼 통신 가동] \n");
-    printf(" ( . .)   토끼의 이름은 무엇인가요?: ");
-    scanf(" %c", &rabbit_initial);
+	//1-3. 4차(메인 시스템 루프용) 변수 선언-지역 변수
+	int system_choice = 0;
 
-    printf(" ( >♡<)   현재 토끼의 질량(kg)은?: ");
-    scanf("%lf", &current_mass);
+	//2. 메인 시스템 루프-성단 관리 시스템
+	while(1)
+		{
+			printf("\n+=========================================================+\n");
+			printf("|       [ SYSTEM : RAISING SPACE DUST RABBIT ]            |\n");
+			printf("+=========================================================+\n");
+			printf("  1. LAUNCH : 새로운 우주 먼지 토끼 등록 및 육성 [%d / %d]\n", rabbit_count, MAX_RABBITS);
+			printf("  2. SHUTDOWN : 성단 관리 시스템 종료 (종합 분석 리포트)\n");
+			printf("+=========================================================+\n");
+			printf(" ▶ COMMAND SELECT : ");
+			scanf("%d", &system_choice);
 
-    printf(" ( u u)   오늘 먹은 별가루는 몇 개인가요?: ");
-    scanf("%d", &stardust_count);
-    printf("  * .  * .  * .  * .  * .  * .  * \n");
-
-    // 3. 산술 연산
-    update_and_adjust_stats(current_mass, stardust_count);
-    
-    // 4. 결과 출력 - 추가 변수도 함께 >> 현재 토끼의 상태 출력
-    printf("\n--- ★ 은하 먼지 토끼 %c의 리포트 ★ ---\n", rabbit_initial);
-    printf("  * .  * .  * .  * .  * .  * .  * \n");
-    printf("  질량 변화: %.1f kg -> %.1f kg \n", current_mass, increased_mass);
-    printf("  반짝임 지수: %d pt \n", twinkle_power);
-    printf("  밀도: %.2f dust \n", density); 					// dust는 게임 내 토끼의 밀도를 나타내는 가상단위임!
-    printf("  에너지 잔량: %.2f %% \n", energy);
-    printf("  [애정: %d %% | 스트레스: %d %% | 색온도: %d K]\n", affection, stress, color_temp);
-    printf("  * .  * .  * .  * .  * .  * .  *");
-    printf("\n-------------------------------------\n \n");
-    printf("상태 분석이 완료되었습니다. 멋진 별토끼가 될 준비 중!\n");
+			if(system_choice == 2)
+			{
+				printf("\n[ 시스템 제어를 종료하고 최종 성단 리포트를 출력합니다. ]\n");
+				break;
+			}
+			else if(system_choice == 1)
+			{
+				if(rabbit_count >= MAX_RABBITS) //성단 자리 체크 후 실행
+				{
+					printf("\n[ 알림: 성단이 가득 찼습니다! 더 이상 토끼를 수용할 수 없습니다. (최대 %d마리) ]\n", MAX_RABBITS);
+					printf("\n[ 알림: 더 이상 등록이 불가능하므로, 자동으로 종합 정산 리포트를 출력합니다.]\n");
+					break;
+				}
+				else
+				{
+					void register_new_rabbit(); //새 우주 토끼 등록
+				}
+			}
+		}
     
 //1. 반복문
 while(1)
@@ -228,7 +242,10 @@ while(1)
 }
 
 //7. 함수 정의
-//7-1.데이터 범위 보정 및 산술 연산-함수 처리
+//7-1. 신규 우주 토끼 등록-함수 처리
+
+
+//7-2. 데이터 범위 보정 및 산술 연산-함수 처리
 void update_and_adjust_stats(double current_mass, int stardust_count)
 {
 	//산술 연산
@@ -258,7 +275,7 @@ void update_and_adjust_stats(double current_mass, int stardust_count)
     density = energy / increased_mass;							// 밀도: 에너지 / 최종 질량으로 설정 및 업데이트  
 }
 
-//7-2. 진화 등급 판정-함수 처리
+//7-3. 진화 등급 판정-함수 처리
 int judge_evolution(double mass, int twinkle)
 {
 	printf("\n[ 최종 진화 등급 판정 ]\n");
@@ -308,7 +325,7 @@ int judge_evolution(double mass, int twinkle)
 }
 	
         
-//7-3. 업적 및 칭호 부여-함수 처리
+//7-4. 업적 및 칭호 부여-함수 처리
 void grant_achievements()
 {
 	printf("\n[ 업적 및 칭호 부여 ]\n");
